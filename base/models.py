@@ -34,9 +34,20 @@ class Hotel(models.Model):
             MinValueValidator(1)
         ])
 
+    description = models.CharField(max_length=500, blank=False, default="Lorem ipsum dolor sit amet consectetur adipisicing elit.")
+
+    slug = models.SlugField()
+
+    image = models.ImageField(upload_to='images/', default='images/default.jpg')
+
     def __str__(self):
 
         return "{0}: {1} | {2} stars".format(self.hotel_name, self.location, self.hotel_rating)
+
+    def get_abs_url(self):
+        return reverse("base:hotel", kwargs={
+            'slug': self.slug
+        })
 
 class HotelRoom(models.Model):
 

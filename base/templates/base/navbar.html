@@ -1,12 +1,15 @@
 <header class="site-header">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
-    <a class="navbar-brand ml-3 mt-1" href="{% url 'base:home' %}" style="color: #18b4c9"><h3>Phlipcart</h3></a>
+    <a class="navbar-brand ml-3 mt-1" href="{% url 'base:home' %}" style="color: #18b4c9"><h3>AyrBenB</h3></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="btn bg-steel btn-md ml-1" href="{% url 'base:hotels' %}" style="color: black;">View Hotels <span class="sr-only">(current)</span></a>
+          </li>
       </ul>
     </div>
     <li class="nav-item dropdown nav-user"> <a class="nav-link nav-user-img" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ picture }}" alt="" class="user-avatar-md rounded-circle" height="32px" width="32px"></a></li>

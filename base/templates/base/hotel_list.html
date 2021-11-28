@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+    {% for hotel in hotels %}
+        <div class="container border border-white mt-2">
+            <a href="{{ hotel.get_abs_url }}">{{ hotel.hotel_name }}</a>
+            <img src="{{ hotel.image.url }}" alt="" width="200" height="200">
+            <p>{{ hotel.description }}</p>
+            <p>{{ hotel.hotel_rating }}</p>
+            <p>{{ hotel.location.city }}, {{ hotel.location.country }}</p>
+        </div>
+    {% endfor %}
+
+{% endblock content %}
