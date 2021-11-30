@@ -6,5 +6,6 @@ app_name = 'base'
 urlpatterns = [
     path('home', views.home, name='home'),
     path('hotel/<slug>', views.hotels, name='hotel'),
-    path('hotels', views.hotel_list, name='hotels')
+    path('hotels', views.hotel_list, name='hotels'),
+    path('hotel-room/<slug>', views.hotel_rooms, name='hotel-room')
 ]

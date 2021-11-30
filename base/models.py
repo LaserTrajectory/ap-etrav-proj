@@ -54,10 +54,16 @@ class HotelRoom(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     room_number = models.IntegerField(blank=False, default='000')
     is_booked = models.BooleanField(default=False)
+    slug = models.SlugField()
 
     def __str__(self):
 
         return "{0}: #{1}".format(self.hotel.hotel_name, self.room_number)
+
+    def get_abs_url(self):
+        return reverse("base:hotel-room", kwargs={
+            'slug': self.slug
+        })
 
 class RoomBooking(models.Model):
 
@@ -65,6 +71,8 @@ class RoomBooking(models.Model):
                             blank=True, null=True)
     room = models.ForeignKey(HotelRoom, on_delete=models.CASCADE)
     date_booked = models.DateTimeField(auto_now_add=True)
+    booking_start_date = models.DateTimeField(null=True)
+    booking_end_date = models.DateTimeField(null=True)
 
     def __str__(self):
 
@@ -72,3 +80,19 @@ class RoomBooking(models.Model):
                                          self.room.hotel.hotel_name, 
                                          self.room.room_number,
                                          self.date_booked)
+
+class HotelReview(models.Model):
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                            blank=True, null=True)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    review = models.TextField(blank=True, null=True)
+    user_rating = models.IntegerField(default=1)
+    post_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+
+        return "{0}'s review for {1} | {2} star(s) @ {3}".format(self.user, self.hotel, 
+                                                         self.user_rating, self.post_date)
+
+        

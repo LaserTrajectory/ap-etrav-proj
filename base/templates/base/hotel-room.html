@@ -1,0 +1,18 @@
+{% extends "base/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <h1>{{ room.hotel.hotel_name }}</h1>
+
+    <p>Room number: {{ room.room_number }}</p>
+
+    <p>Is booked: {{ room.is_booked }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <p style="text-align: center"><input type="submit" value="Book"></p>
+    </form>
+
+{% endblock content %}

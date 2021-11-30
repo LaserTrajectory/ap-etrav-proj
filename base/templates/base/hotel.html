@@ -4,10 +4,70 @@
 
     <div class="container border border-white mt-2">
         <a href="{{ hotel.get_abs_url }}">{{ hotel.hotel_name }}</a>
-        <img src="{{ hotel.image.url }}" alt="" width="200" height="200">
-        <p>{{ hotel.description }}</p>
-        <p>{{ hotel.hotel_rating }}</p>
-        <p>{{ hotel.location.city }}, {{ hotel.location.country }}</p>
+        <div class="container m-3">
+            <img src="{{ hotel.image.url }}" alt="" width="200" height="200">
+        </div>
+        <div class="container border border-white m-3">
+            <p>{{ hotel.description }}</p>
+            <p>{{ hotel.hotel_rating }}</p>
+            <p>{{ hotel.location.city }}, {{ hotel.location.country }}</p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="container border border-white m-2 p-2">
+            <h3>Reviews</h3>
+            {% for review in reviews %}
+              <div>
+                <p>Date: {{ review.post_date }} | User: {{ review.user.username }}</p>
+                <p>{{ review.review }}</p>
+                <p>{{ review.user_rating }} star(s)</p>
+              </div>
+            {% empty %}
+              <div>
+                <p>No reviews yet...</p>
+              </div>
+            {% endfor %}
+        </div>
+
+        <div class="container border border-white m-2 p-3">
+            <h2>Add a review</h2>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                  <div class="form-group">
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Add a review here..." name="review"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select Rating</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="rating">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="container border border-white m-2 p-2">
+        <h3>Available rooms</h3>
+        {% for room in rooms %}
+            <div class="container border border-white m-2">
+                <p>#{{ room.room_number }} | Is booked: {{ room.is_booked }} </p>
+                {% if room.is_booked != True %}
+                    <a class="btn bg-steel btn-md ml-1 m-2" href="{{ room.get_abs_url }}" style="color: black;">Book this room <span class="sr-only">(current)</span></a>
+                {% else %}
+                    <p>Booked</p>
+                {% endif %}
+            </div>
+        {% endfor %}
     </div>
 
 {% endblock content %}
