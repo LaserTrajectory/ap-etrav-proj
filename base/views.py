@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Hotel, HotelRoom, RoomBooking, HotelReview
 from .forms import DateForm
+from django.contrib.auth import logout as log_out
+from urllib.parse import urlencode
+from django.conf import settings
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -78,3 +82,18 @@ def hotel_rooms(request, slug):
             return redirect("base:home")
 
     return render(request, "base/hotel-room.html", context)
+
+def index(request):
+    user = request.user
+    if user.is_authenticated:
+        return render(request, 'base/home.html')
+    else:
+        return render(request, 'base/index.html')
+
+def logout(request):
+    log_out(request)
+    return_to = urlencode({"returnTo": request.build_absolute_uri("/")})
+    logout_url = "https://{}/v2/logout?client_id={}&{}".format(
+        settings.SOCIAL_AUTH_AUTH0_DOMAIN, settings.SOCIAL_AUTH_AUTH0_KEY, return_to,
+    )
+    return HttpResponseRedirect(logout_url)

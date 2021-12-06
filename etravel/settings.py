@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms'
+    'crispy_forms',
+    'social_django',
+    'auth0login'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +130,26 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SOCIAL_AUTH_AUTH0_DOMAIN = "dev-qeack6lg.us.auth0.com"
+SOCIAL_AUTH_AUTH0_KEY = "j9q7QAiA5ofteG6bWnb75Grdc3rsMGKp"
+SOCIAL_AUTH_AUTH0_SECRET = "cUkZNGxk8icy9_rz2Ru877m7p-pawaO-lod10qwBWaCazVZ8QZsIsghDUVO5Prw9"
+
+# Setting up Auth0 Scope
+SOCIAL_AUTH_AUTH0_SCOPE = [
+    'openid',
+    'profile',
+    'email'
+]
+
+# Setting up Authentication Backends
+AUTHENTICATION_BACKENDS = {
+    "auth0login.auth0backend.Auth0",
+    "django.contrib.auth.backends.ModelBackend",
+}
+
+# Setting up login and redirect URLs
+LOGIN_URL = "/login/auth0/"
+LOGIN_REDIRECT_URL = "/"
+
+SOCIAL_AUTH_URL_NAMESPACE = 'base:social'
