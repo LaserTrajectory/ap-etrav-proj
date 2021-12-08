@@ -12,5 +12,6 @@ urlpatterns = [
     path('', include("django.contrib.auth.urls")),
     path('', include("social_django.urls", namespace='social')),
     path("logout", views.logout),
-    path('profile', views.profile, name='profile')
+    path('profile', views.profile, name='profile'),
+    path('recommendations', views.recommendations, name='recommendations')
 ]

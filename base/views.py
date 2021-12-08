@@ -94,7 +94,7 @@ def hotel_rooms(request, slug):
 def index(request):
     user = request.user
     if user.is_authenticated:
-        return render(request, 'base/home.html')
+        return render(request, 'base/recommendations.html')
     else:
         return render(request, 'base/index.html')
 
@@ -128,3 +128,6 @@ def profile(request):
 
     return render(request, "base/profile.html", context)
 
+def recommendations(request):
+
+    render(request, "base/recommendations.html", request)
