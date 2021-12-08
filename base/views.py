@@ -10,7 +10,11 @@ from django.http import HttpResponseRedirect
 
 def home(request):
 
-    return render(request, "base/home.html")
+    context = {}
+
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
+    return render(request, "base/home.html", context)
 
 def hotels(request, slug):
 
@@ -37,6 +41,8 @@ def hotels(request, slug):
         'reviews': reviews_list
     }
 
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
     return render(request, "base/hotel.html", context)
 
 def hotel_list(request):
@@ -46,6 +52,8 @@ def hotel_list(request):
     context = {
         'hotels': queryset
     }
+
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
 
     return render(request, "base/hotel_list.html", context)
 
@@ -97,3 +105,26 @@ def logout(request):
         settings.SOCIAL_AUTH_AUTH0_DOMAIN, settings.SOCIAL_AUTH_AUTH0_KEY, return_to,
     )
     return HttpResponseRedirect(logout_url)
+
+def profile(request):
+
+    user = request.user
+    auth0user = user.social_auth.get(provider='auth0')
+
+    userdata = {
+        'user_id': auth0user.uid,
+        'name': user.first_name,
+        'picture': auth0user.extra_data['picture'],
+        'email': auth0user.extra_data['email'],
+    }
+
+    user_name = user.first_name
+
+    context = {
+        'auth0User': auth0user,
+        'userdata': userdata,
+        'user_name': user_name,
+    }
+
+    return render(request, "base/profile.html", context)
+

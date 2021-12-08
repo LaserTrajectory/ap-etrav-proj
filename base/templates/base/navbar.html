@@ -12,11 +12,11 @@
           </li>
       </ul>
     </div>
-    <li class="nav-item dropdown nav-user"> <a class="nav-link nav-user-img" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ picture }}" alt="" class="user-avatar-md rounded-circle" height="32px" width="32px"></a></li>
+    <li class="nav-item dropdown nav-user"> <a class="nav-link nav-user-img" href="{% url 'base:home' %}" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ picture }}" alt="" class="user-avatar-md rounded-circle" height="32px" width="32px"></a></li>
     <div class="btn-group">
       <button type="button" class="btn dropdown-toggle bg-steel" data-bs-toggle="dropdown"></button>
       <div class="dropdown-menu dropdown-menu-right bg-dark">
-        <a class="dropdown-item bg-dark" style="color: white;">My Profile <span class="badge badge-light"></span></a>
+        <a class="dropdown-item bg-dark" href="{% url 'base:profile' %}" style="color: white;">My Profile <span class="badge badge-light"></span></a>
         <a class="dropdown-item bg-dark" style="color: white;">My Bookings <span class="badge badge-light"></span></a>
         <a class="dropdown-item bg-dark" style="color: white;" href="/logout"> Log Out</a>
       </div>
