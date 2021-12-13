@@ -13,5 +13,7 @@ urlpatterns = [
     path('', include("social_django.urls", namespace='social')),
     path("logout", views.logout),
     path('profile', views.profile, name='profile'),
-    path('recommendations', views.recommendations, name='recommendations')
+    path('recommendations', views.recommendations, name='recommendations'),
+    path('success', views.success, name='success'),
+    path('booking-pdf', views.booking_pdf, name='booking-pdf')
 ]

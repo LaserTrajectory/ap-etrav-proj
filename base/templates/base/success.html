@@ -1,0 +1,9 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+    <h1>Success! Your booking was placed!</h1>
+
+    <a class="btn bg-steel btn-md ml-1" href="{% url 'base:booking-pdf' %}" style="color: black;">Download acknowledgement letter <span class="sr-only">(current)</span></a>
+
+{% endblock content %}

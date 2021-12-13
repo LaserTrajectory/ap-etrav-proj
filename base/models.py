@@ -73,6 +73,7 @@ class RoomBooking(models.Model):
     date_booked = models.DateTimeField(auto_now_add=True)
     booking_start_date = models.DateTimeField(null=True)
     booking_end_date = models.DateTimeField(null=True)
+    # change to date fields ^^^
 
     def __str__(self):
 

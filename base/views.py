@@ -4,15 +4,55 @@ from .forms import DateForm
 from django.contrib.auth import logout as log_out
 from urllib.parse import urlencode
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, response
+import datetime
+
+from django.http import FileResponse
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
 
 # Create your views here.
+
+def booking_pdf(request):
+
+    buffer = io.BytesIO()
+    c = canvas.Canvas(buffer, pagesize=letter, bottomup=0)
+    text_object = c.beginText()
+    text_object.setTextOrigin(inch, inch)
+    text_object.setFont("Helvetica", 14)
+
+    booking_list = RoomBooking.objects.filter(user=request.user)
+    latest_index = len(booking_list) - 1
+    booking = booking_list[latest_index]
+
+
+    # format the lines properly so that the pdf looks decent
+    lines = []
+    lines.append("Booked by: ", str(booking.user.username))
+    lines.append("Booked at: ", str(booking.date_booked))
+    lines.append("Booked from: ", str(booking.booking_start_date))
+    lines.append("Booked till: ", str(booking.booking_end_date))
+    lines.append("Hotel: ", str(booking.room.hotel))
+    lines.append("Hotel room:" , str(booking.room.room_number))
+
+    print(lines)
+
+    for line in lines:
+        text_object.textLine(line)
+
+    c.drawText(text_object)
+    c.showPage()
+    c.save()
+    buffer.seek(0)
+
+    return FileResponse(buffer, as_attachment=True, filename="booking.pdf")
+
 
 def home(request):
 
     context = {}
-
-    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
 
     return render(request, "base/home.html", context)
 
@@ -41,7 +81,7 @@ def hotels(request, slug):
         'reviews': reviews_list
     }
 
-    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+    print(datetime.datetime.now())
 
     return render(request, "base/hotel.html", context)
 
@@ -52,8 +92,6 @@ def hotel_list(request):
     context = {
         'hotels': queryset
     }
-
-    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
 
     return render(request, "base/hotel_list.html", context)
 
@@ -87,7 +125,7 @@ def hotel_rooms(request, slug):
             booking_end_date=end_date)
             hotel_room.is_booked = True
             hotel_room.save()
-            return redirect("base:home")
+            return redirect("base:success")
 
     return render(request, "base/hotel-room.html", context)
 
@@ -130,4 +168,13 @@ def profile(request):
 
 def recommendations(request):
 
-    render(request, "base/recommendations.html", request)
+    return render(request, "base/recommendations.html")
+
+def success(request):
+
+    booking_list = RoomBooking.objects.filter(user=request.user)
+    latest_index = len(booking_list) - 1
+    print(booking_list[latest_index])
+    print(booking_list[latest_index].user.username)
+
+    return render(request, "base/success.html")
