@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Hotel, HotelRoom, RoomBooking, HotelReview
+from .models import Hotel, HotelRoom, Location, RoomBooking, HotelReview
 from .forms import DateForm
 from django.contrib.auth import logout as log_out
 from urllib.parse import urlencode
@@ -178,3 +178,48 @@ def success(request):
     print(booking_list[latest_index].user.username)
 
     return render(request, "base/success.html")
+
+def search_filter_view(request):
+
+    location_contains = request.GET.get('location_contains')
+    hotel_contains = request.GET.get('hotel_contains')
+    locations = Location.objects.all()
+    location_set = []
+    for loc in locations:
+        location_set.append(loc.country)
+    location_selected = request.GET.get('location')
+    # print(location_contains)
+    # print("cat sel:", location_selected)
+    # print(location_set)
+    ratings = request.GET.get('ratings')
+    print('val:', ratings)
+    queryset = Hotel.objects.all()
+
+    # print(location_contains)
+
+    if location_contains != '' and location_contains is not None:
+
+        queryset = Hotel.objects.filter(location__city__icontains=location_contains)
+        print(queryset)
+
+    elif hotel_contains != '' and hotel_contains is not None:
+
+        queryset = Hotel.objects.filter(hotel_name__icontains=hotel_contains)
+        print(queryset)
+
+    elif location_selected != '' and location_selected is not None and location_selected != "Choose...":
+
+        queryset = Hotel.objects.filter(location__country=location_selected)
+ 
+    elif ratings != '' and ratings is not None:
+
+        queryset = Hotel.objects.filter(hotel_rating=ratings)
+
+
+    context = {
+        'loc_set': location_set,
+        'queryset': queryset,
+    }
+
+
+    return render(request, "base/search_filter_form.html", context)    

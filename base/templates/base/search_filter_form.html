@@ -1,0 +1,45 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+    <form action="search-form" method="GET">
+
+        <input class="form-control py-2 border-right-0 border mt-2 mb-2" type="search" name="location_contains" placeholder="City name contains..." id="tags" />
+        <input class="form-control py-2 border-right-0 border mt-2 mb-2" type="search" name="hotel_contains" placeholder="Hotel name contains..." />
+
+        <div class="form-group col-md-4 col-lg-4">
+            <label for="location">Countries</label>
+            <select id="location" class="form-control" name="location">
+            <option selected>Choose...</option>
+            {% for cat in loc_set %}
+                <option value="{{ cat }}">{{ cat }}</option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group col-md-4 col-lg-4">
+            <label for="ratings">Ratings</label>
+            <select id="ratings" class="form-control" name="ratings">
+            <option selected>Choose...</option>
+            <option value="1">1 star</option>
+            <option value="2">2 stars</option>
+            <option value="3">3 stars</option>
+            <option value="4">4 stars</option>
+            <option value="5">5 stars</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-outline-primary mt-2">Search</button>
+        <a class="nav-item nav-link" href="{% url 'base:search-filter' %}">Clear</a>
+
+    </form>
+
+    <div class="container mt-2 p-2 border border-white">
+        {% for hotel in queryset %}
+            <p> {{ hotel.hotel_name }} | {{ hotel.location }} | {{ hotel.hotel_rating }}</p>
+        {% endfor %}
+    </div>
+
+
+
+{% endblock content %}

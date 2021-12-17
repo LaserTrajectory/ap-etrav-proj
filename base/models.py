@@ -71,8 +71,8 @@ class RoomBooking(models.Model):
                             blank=True, null=True)
     room = models.ForeignKey(HotelRoom, on_delete=models.CASCADE)
     date_booked = models.DateTimeField(auto_now_add=True)
-    booking_start_date = models.DateTimeField(null=True)
-    booking_end_date = models.DateTimeField(null=True)
+    booking_start_date = models.DateField(null=True)
+    booking_end_date = models.DateField(null=True)
     # change to date fields ^^^
 
     def __str__(self):
