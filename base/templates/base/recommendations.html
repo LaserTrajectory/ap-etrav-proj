@@ -2,6 +2,39 @@
 
 {% block content %}
 
-    <h1>Hey there! This is the recommendations page!</h1>
+<section class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start mt-5">
+  <div class="container">
+    <div class="align-items-center">
+      <div>
+        <h1><span class="text-warning"> Need a Penthouse in Manali? Or a Hotel Room in Bombay? </span></h1>
+        <p class="lead my-4">
+          Checkout the Best Hotel Aggretor in the Country
+        </p>
+        <a href="{% url 'base:hotels' %}" class="btn btn-info btn-warning btn-lg mb-3" role="button">View Hotels</a> 
+  </div>
+</section>
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://byatra.com/Content/images/hotel-banner-new.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://cdn.initial.com/content/local/us/images/desktop/main_initial-hotels-banner.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://cdn.ambius.com/content/local/uk-amb/images/desktop/main_hotel-banner.jpg" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+<br>
 
 {% endblock content %}
