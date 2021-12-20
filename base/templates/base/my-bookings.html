@@ -1,0 +1,13 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+    <h1>This is the My Bookings page</h1>
+
+    <div class="container align-items-center border border-grey m-2 p-2">
+        {% for booking in bookings %}
+            <p>{{ booking.room }} | {{ booking.booking_start_date }} to {{ booking.booking_end_date }} </p>
+        {% endfor %}
+    </div>
+
+{% endblock content %}

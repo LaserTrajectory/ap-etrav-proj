@@ -30,12 +30,12 @@ def booking_pdf(request):
 
     # format the lines properly so that the pdf looks decent
     lines = []
-    lines.append("Booked by: ", str(booking.user.username))
-    lines.append("Booked at: ", str(booking.date_booked))
-    lines.append("Booked from: ", str(booking.booking_start_date))
-    lines.append("Booked till: ", str(booking.booking_end_date))
-    lines.append("Hotel: ", str(booking.room.hotel))
-    lines.append("Hotel room:" , str(booking.room.room_number))
+    lines.append("Booked by: " + str(booking.user.username))
+    lines.append("Booked at: " + str(booking.date_booked))
+    lines.append("Booked from: " + str(booking.booking_start_date))
+    lines.append("Booked till: " + str(booking.booking_end_date))
+    lines.append("Hotel: " + str(booking.room.hotel))
+    lines.append("Hotel room:" + str(booking.room.room_number))
 
     print(lines)
 
@@ -148,6 +148,7 @@ def profile(request):
 
     user = request.user
     auth0user = user.social_auth.get(provider='auth0')
+    bookings = RoomBooking.objects.filter(user=user)
 
     userdata = {
         'user_id': auth0user.uid,
@@ -162,6 +163,7 @@ def profile(request):
         'auth0User': auth0user,
         'userdata': userdata,
         'user_name': user_name,
+        'bookings': bookings
     }
 
     return render(request, "base/profile.html", context)
@@ -223,3 +225,13 @@ def search_filter_view(request):
 
 
     return render(request, "base/search_filter_form.html", context)    
+
+def my_booking_view(request):
+
+    bookings = RoomBooking.objects.filter(user=request.user)
+
+    context = {
+        'bookings': bookings
+    }
+
+    return render(request, "base/my-bookings.html", context)

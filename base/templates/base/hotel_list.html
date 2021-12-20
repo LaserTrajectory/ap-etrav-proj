@@ -13,8 +13,10 @@
       text-align: center;
       overflow: hidden;
       position: relative;
-      border: 3px solid white;
+      border: 1px solid grey;
       margin-top: 50px;
+      width: 1000px;
+      align-self: center;
     }
     
     .product.grid:before{
@@ -154,16 +156,16 @@
 
     <section class="bg-steel text-light p-5 text-center text-sm-start">
         <div class="container">
-        <div class="align-items-center ">
+        <div class="align-items-center">
             <h2 class="mb-3 mb-md-0">Find the Stay that Matches Your Needs</h2>
         </div>
         </div>
     </section>
     
-    <div class="container">
-        <div class="row">
+    <div class="container align-items-center">
+        <div class="row align-items-center">
         {% for hotel in hotels %}
-          <div class="col-lg-4">
+          <div class="col-lg-8">
             <div class="product-grid">
               <div class="product-image">
                 <a>
@@ -184,11 +186,37 @@
                       border-color: black;
                     }
                   </style>
+                  {% if hotel.hotel_rating == 5 %}
                   <i class="fa fa-star"></i>
                   <i class="fa fa-star"></i>
                   <i class="fa fa-star"></i>
                   <i class="fa fa-star"></i>
-                  <i class="fa fa-star-o"></i> 
+                  <i class="fa fa-star"></i>
+                  {% elif hotel.hotel_rating == 4 %}
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o"></i>
+                  {% elif hotel.hotel_rating == 3 %}
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  {% elif hotel.hotel_rating == 2 %}
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  {% elif hotel.hotel_rating == 1 %}
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  {% endif %}
                   <span class="ml-1">{{ hotel.hotel_rating }} <a href="#!" class="material-tooltip-main card-link" data-toggle="tooltip" data-placement="top" title="Read reviews">(542 reviews)</a></span>
   </ul>
                 </div>
