@@ -1,4 +1,88 @@
 {% load static %}
+<style>
+
+  body{
+    background-color:black;
+  }
+
+  .login-box{
+    background: black;
+    text-align: center;
+  }
+
+  .auth-box{
+    background: black;
+    text-align: center;
+  }
+
+  .image-auth{
+    text-align: center;
+    margin-right: 8rem;
+    position: relative;
+    bottom: 25px;
+  }
+
+  .intro{
+    margin-top: -0.5rem;
+    color: white;
+    font-size: 2rem;
+    position: relative;
+    bottom: 60px;
+  }
+
+  .button {
+    background-color: #8f50fb; /* Green */
+    border: orange;
+    border-width: 5rem;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    padding: 20px;
+    position: relative;
+    bottom: 45px;
+
+  }
+
+  .button2 {
+    background-color: orange; 
+    color: white; 
+    border: orange;
+    border-width: 5rem;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    position: relative;
+    bottom: 45px;
+  }
+  .button2:hover {
+    background-color: white;
+    color: purple;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    position: relative;
+    bottom: 45px;
+  }
+
+  .text{
+    color: rgb(185, 181, 181);
+    font-size: 1rem;
+    position: relative;
+    bottom: 55px;
+  }
+
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,7 +90,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AyrBenB Login</title>
+    <title>Ayubowan</title>
 
     <link href="{% static 'base/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -17,11 +101,10 @@
 </head>
 <body>
     <div class="login-box auth0-box before">
-        <img src="https://images.ctfassets.net/23aumh6u8s0i/3kLCq6FMhsHsx98VTawqkY/82280e487e361595481f0870fb203929/StzWWrY34s" />
-        <h3>Auth0 Example</h3>
-        <p>Zero friction identity infrastructure, built for developers</p>
-        <a class="btn btn-primary btn-login" href="/login/auth0">
-          Log In
+        <img class="image-auth" src="https://www.creativefabrica.com/wp-content/uploads/2020/09/13/Elephant-white-on-black-background-Graphics-5456253-1.jpg" alt="">
+        <h3 class="intro">Welcome to Ayubowan!</h3>
+        <p class="text">Please press the button below to Continue</p>
+        <a href="/login/auth0" class="button button2">Continue</a>
         </a>
       </div>
 </body>
