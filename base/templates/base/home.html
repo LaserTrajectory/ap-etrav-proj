@@ -1,40 +1,1006 @@
-{% extends 'base/base.html' %}
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Courgette|Open+Sans:400,800&display=swap');
 
-{% block content %}
+  /*navbar*/
+  *,
+  *::before,
+  *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+  :root {
+      --dark-color: #2d2c2c;
+      --purple-solid: #350a4f;
+      --purple-transparent: rgba(53, 10, 79, .7);
+      --purple-transparent-alt: rgba(53, 10, 79, .5);
+      --purple-light: #8f50fb;
+      --yellow-solid: #fa9e2c;
+      --gradient-color: linear-gradient(to right, var(--yellow-solid), var(--purple-light));
+      --gradient-color-alt: linear-gradient(to right, var(--purple-light), var(--yellow-solid));
+  }
 
-<section class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start mt-5">
-    <div class="container">
-      <div class="align-items-center">
-        <div>
-          <h1><span class="text-warning"> Need a Penthouse in Manali? Or a Hotel Room in Bombay? </span></h1>
-          <p class="lead my-4">
-            Check out the Best Hotel Aggregator in the Country
-          </p>
-          <a href="{% url 'base:hotels' %}" class="btn btn-info btn-warning btn-lg mb-3" role="button">View Hotels</a> 
-    </div>
-  </section>
-  
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="https://byatra.com/Content/images/hotel-banner-new.jpg" class="d-block w-100" alt="...">
+  html {
+      font-size: 10px;
+  }
+
+  body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 1.6rem;
+      color: var(--dark-color);
+  }
+
+  a {
+      text-decoration: none;
+      color: inherit;
+  }
+
+  ul {
+      list-style: none;
+  }
+
+  section {
+      padding: 5rem 0;
+  }
+
+  .container {
+      width: 100%;
+      max-width: 120rem;
+      padding: 0 1.5rem;
+      margin: 0 auto;
+  }
+
+  .btn {
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: .5rem 3.5rem;
+      border: none;
+      border-radius: 10rem;
+      display: inline-flex;
+      align-items: center;
+  }  
+
+  .form-btn {
+      margin-top: 2.5rem;
+      cursor: pointer;
+  }
+
+  .btn-gradient {
+      background-image: var(--gradient-color);
+  }
+
+  .btn-gradient:hover {
+      background-image: var(--gradient-color-alt);
+  }
+
+  .btn-purple {
+      background-color: var(--purple-solid);
+      transition: background-color .5s;
+  }
+
+  .btn-purple:hover {
+      background-color: #56247f;
+  }
+
+  .dots {
+      font-size: 2.4rem;
+      margin-left: .5rem;
+      opacity: .75;
+  }
+
+  .header {
+      width: 100%;
+      height: 6rem;
+      display: flex;
+      align-items: center;
+      top: 0;
+      left: 0;
+      position: fixed;
+      background-color: var(--purple-transparent);
+      z-index: 999;
+      transition: background-color .5s, height .5s;
+  }
+
+  .header.active {
+      background-color: var(--purple-solid);
+  }
+
+  .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  }
+
+  .logo-image {
+      max-width: 80%;
+  }
+
+  .hamburger-menu {
+      font-size: 2.6rem;
+      color: #fff;
+      cursor: pointer;
+      position: relative;
+      z-index: 1500;
+  }
+
+  .close-state {
+      display: none;
+  }
+
+  .menu-open .open-state {
+      display: none;
+  }
+
+  .menu-open .close-state {
+      display: block;
+  }
+
+  .nav-list {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: var(--purple-solid);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1400;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity .5s;
+  }
+
+  .menu-open .nav-list {
+      opacity: 1;
+      transform: scale(1);
+  }
+
+  .nav-item:not(:last-child) {
+      margin-bottom: .5rem;
+  }
+
+  .nav-link {
+      display: block;
+      color: #fff;
+      font-size: 3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 1rem;
+  }
+  /*home slider*/
+  .hero {
+      width: 100%;
+      height: 100vh;
+      background: url("https://bit.ly/3GGAk4l") center no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 0;
+  }
+
+  .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      background-color: var(--purple-transparent-alt);
+      z-index: -1;
+  }
+
+  .main-heading {
+      color: #fff;
+      line-height: 1;
+      text-shadow: 1px 1px 1rem rgba(0, 0, 0, .5);
+      margin-bottom: 2.5rem;
+  }
+
+  .title {
+      font-size: 4.8rem;
+      text-transform: uppercase;
+      letter-spacing:	3px;
+  }
+
+  .sub-title {
+      font-size: 	3.6rem;
+      font-weight: 300;
+      font-family: 'Courgette', cursive;
+  }
+
+  /*Booking section*/
+  .booking {
+      background-image: var(--gradient-color);
+  }
+
+  .input-group {
+      margin-bottom: 1.5rem;
+  }
+
+  .input-label {
+      display: block;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      color: #fff;
+      font-weight: bold;
+      margin-bottom: 1rem;
+  }
+
+  .input,
+  .options {
+      outline: none;
+      border: none;
+      width: 100%;
+      min-height: 4rem;
+      padding: 1rem;
+      font-weight: bold;
+      color: #a5a5a5;
+      letter-spacing: 2px;
+      font-family: "Open Sans", sans-serif;
+      resize: none;
+  }
+
+  ::placeholder {
+      color: inherit;
+  }
+
+  /*Features hotels section styles*/
+  .section-head {
+      text-align: center;
+      margin-bottom: 5rem;
+  }
+
+  .heading {
+      display: block;
+      font-size: 4rem;
+      text-transform: uppercase;
+  }
+
+  .sub-heading {
+      font-size: 1.7rem;
+      font-family: 'Courgette', cursive;
+      font-weight: 300;
+      color: #a5a5a5;
+  }
+
+  .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+      grid-gap: 2.5rem;
+  }
+
+  .grid-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .featured-hotels {
+      height: 35rem;
+      color: #fff;
+      padding: 1rem;
+      position: relative;
+      z-index: 0;
+  }
+
+  .featured-hotels::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--purple-transparent-alt);
+      z-index: -1;
+  }
+
+  .hotel-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+  }
+
+  .hotel-name {
+      font-size: 2.6rem;
+  }
+
+  .hotel-price {
+      font-size: 1.8rem;
+  }
+
+  .hotel-rating {
+      margin: 1rem 0 2.5rem;
+  }  
+
+  .rating {
+      color: var(--yellow-solid);
+  }
+
+  .offer {
+      background: linear-gradient(to right, rgba(250, 158, 44, 0.8), rgba(143, 80, 251, 0.8)), 
+      url("https://bit.ly/3DHSq40") bottom center no-repeat;
+      background-size: cover;
+  }
+
+  .offer-content {
+      background-color: #fff;
+      text-align: center;
+      padding: 5rem 1rem;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .discount {
+      background-color: var(--yellow-solid);
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      outline: 2px solid var(--yellow-solid);
+      outline-offset: .5rem;
+  }
+
+  .paragraph {
+      color: #a5a5a5;
+      margin-bottom: 2.5rem;
+  }
+
+  /*rooms luxuries*/
+  .rooms{
+      background-color: #f2f6f9;  
+  }
+
+  .image-wrap{
+      position: relative;
+      height: 25rem;
+  }
+
+  .image-wrap::after{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%; 
+      background-color: var(--purple-transparent-alt);
+  }
+
+  .room-image{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+
+  .room-name{
+      font-size: 1.5rem;
+      background-color: var(--yellow-solid);
+      color: #fff;
+      padding: .5rem 2rem;
+      position: absolute;
+      left: 0;
+      bottom: 2.5rem;
+      z-index: 10;
+  }
+
+  .room-price {
+      display: block;
+      font-size: 3.6rem;
+      font-weight: bold;
+      color: var(--yellow-solid);
+  }
+
+  .per-night {
+      color: var(--dark-color);
+      font-size: 1.4rem;
+      font-weight: 100;
+  }
+
+  .rooms-btn {
+      color: var(--dark-color);
+      padding: 10;
+      transition: color .5s;
+  }
+
+  .rooms-btn:hover {
+      color: var(--yellow-solid);
+  }
+
+  /*contact section*/
+  .contact-content {
+      display: flex;
+      justify-content: center;
+  }
+
+  .traveler-wrap{
+      display: none;
+  }
+
+  .contact-form{
+      width: 100%;
+      background-image: var(--gradient-color);
+      padding: 2.5rem;
+  }
+
+  .contact-form .input{
+      display: block;
+      background-color: transparent;
+      color: #fff;
+      font-weight: normal;
+      border-bottom: 2px solid #fff;
+      padding-left: 0;
+  }
+
+  .bar{
+      display: block;
+      position: relative;
+  }
+
+  .bar::after{
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--purple-light);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .5s;
+  }
+
+  .contact-form .input:focus + .bar::after{
+      transform: scaleX(1);
+  }
+
+  /*footer*/
+  .footer{
+      padding: 5rem 0;
+      background-color: var(--purple-solid);
+      color: #fff;
+  }
+
+  .footer-content-brand{
+      margin-bottom: 5rem;
+  }
+
+  .footer .paragraph{
+      color: inherit;
+  }
+
+  .footer-heading{
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+  }
+
+  .about-heading{
+      font-size: 2rem;
+      font-family: 'Courgette', cursive;
+      text-transform: uppercase;
+      letter-spacing:	3px;
+      color:	#fff;
+  }
+
+  .logo-heading{
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing:	3px;
+      color:	#fff;
+  }
+
+  .social-media{
+      display: flex;
+  }
+
+  .sm-link{
+      width: 4rem;
+      height: 4rem;
+      font-size: 2rem;
+      border: 2px solid var(--yellow-solid);
+      border-radius: 50%;
+      display: flex;
+      margin-right: 1rem;
+      transition: background-color .5s;
+  }
+
+  .sm-link:hover{
+      background-color: var(--yellow-solid);
+      color: var(--dark-color);
+  }
+
+  .sm-link i{
+      margin: auto;
+  }
+
+  /*media queries*/
+  @media screen and (min-width: 768px){
+      /*header section styles*/
+      .header{
+          height: 10rem;
+      }
+
+      .header.active{
+          height: 6rem;
+      }
+
+      /*hero section styles*/
+      .title{
+          font-size: 8rem;
+      }
+
+      /*contact section styles*/
+      .contact-content{
+          justify-content: space-between;
+      }
+      
+      .traveler-wrap{
+          display: block;
+          flex: 0 0 45%;
+      }
+
+      .traveler-wrap img{
+          width: 100%;
+      }
+
+      .contact-form{
+          flex: 0 0 50%;
+          align-self: flex-start;
+      }
+
+      .input-group-wrap{
+          display: flex;
+      }
+
+      .input-group-wrap .input-group{
+          width: 50%;
+          margin-right: 2rem;
+      }
+      .input-group-wrap .input-group:last-child{
+          margin-right: 0;
+      }
+      
+      /*footer section*/
+      .footer{
+          overflow-x: hidden;
+      }
+      .footer-content{
+          display: flex;
+      }
+
+      .footer-content-brand{
+          margin-bottom: 0;
+          flex: 0 0 60%;
+      }
+
+      .footer .paragraph{
+          margin-top: 2.5rem;
+          margin-right: 2.5rem;
+      }
+
+      .footer-heading{
+          margin-bottom: 1.5rem;
+      }
+
+      .social-media-wrap{
+          flex: 0 0 40%;
+          margin-left: 2.5rem;
+      }
+  }
+
+  @media screen and (min-width: 1000px){
+      section:not(.booking){
+          padding: 10rem 0;
+      }
+
+      .hamburger-menu{
+          display: none;
+      }
+
+      .nav-list{
+          position: initial;
+          width: initial;
+          height: initial;
+          background-color: transparent;
+          flex-direction: row;
+          justify-content: initial;
+          opacity: 1;
+          transform: scale(1);
+      }
+
+      .nav-item:not(:last-child){
+          margin-right: 3rem;
+          margin-bottom: 0;
+      }
+
+      .nav-link{
+          font-size: 1.3rem;
+          font-weight: normal;
+          transition: color .5s;
+      }
+
+      .nav-link:hover{
+          color: var(--yellow-solid);
+      }
+
+      /*hero section styles*/
+      .title{
+          font-size: 12rem;
+      }
+
+      .sub-title{
+          font-size: 4.6rem;
+      }
+
+      /*booking*/
+      .book-form{
+          display: flex;
+          justify-content: space-between;
+      }
+
+      .book-form .input-group{
+          margin-bottom: 0;
+      }
+
+      .book-form .input-group:first-child{
+          flex: 0 0 20%;
+      }
+
+      .input,
+      .options{
+          min-width: 10rem;
+      }
+
+      /*rooms sections styles*/
+      .rooms-grid{
+          grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
+          grid-gap: 8rem;
+      }
+
+      .featured-rooms{
+          flex-direction: row;
+          flex-direction: column;
+          align-items: flex-start;
+      }
+
+      .room-info-wrap{
+          margin-left: 1.5rem;
+          font-size: 1.5rem;
+          margin-right: 0.5rem;
+          text-align: justify;
+
+      }
+  }
+  @media screen and (min-width: 1200px){
+      .book-form .input-group:first-child{
+          flex: 0 0 30%;
+      }
+  }
+
+</style>
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name ="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ayubowan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<script>
+  let header = document.querySelector('.header');
+  let hamburgerMenu = document.querySelector('.hamburger-menu');
+
+  window.addEventListener('scroll', function () {
+      let windowPosition = window.scrollY > 0;
+      header.classList.toggle('active', windowPosition);
+  })
+
+  hamburgerMenu.addEventListener('click', function () {
+      header.classList.toggle('menu-open');
+  })
+</script>
+<body>
+  <header class="header">
+      <div class="container">
+          <nav class="nav">
+              <a href="#" class="logo-heading">Ayubowan!</a>
+              <div class="hamburger-menu">
+                  <i class="fas fa-bars open-state"></i>
+                  <i class="fas fa-times close-state"></i>
+              </div>
+              <ul class="nav-list">
+                  <li class="nav-item">
+                      <a href="" class="nav-link">Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" class="nav-link">Catalogue</a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" class="nav-link">About</a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="" class="nav-link">Contact Us</a>
+                  </li>
+              </ul>
+          </nav>
       </div>
-      <div class="carousel-item">
-        <img src="https://cdn.initial.com/content/local/us/images/desktop/main_initial-hotels-banner.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="https://cdn.ambius.com/content/local/uk-amb/images/desktop/main_hotel-banner.jpg" class="d-block w-100" alt="...">
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
+  </header>
 
+  <main class="main">
+      <div class="hero">
+          <div class="container">
+              <div class="main-heading">
+                  <h1 class="title">Ayubowan!</h1>
+                  <h2 class="sub-title">Luxury Hotels</h2>
+              </div>
+              <a href="#" class="btn btn-gradient">Explore Now
+                  <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
+              </a>
+          </div>
+      </div>
 
-{% endblock content %}
+      <section class="booking">
+          <div class="container">
+              <form action="" class="form book-form">
+                  <div class="input-group">
+                      <label for="destination" class="input-label">Destination</label>
+                      <input type="text" class="input" id="destination" placeholder="India">
+                  </div>
+                  <div class="input-group">
+                      <label for="check-in" class="input-label">Check in</label>
+                      <input type="date" class="input" id="check in">
+                  </div>
+                  <div class="input-group">
+                      <label for="check-out" class="input-label">Check out</label>
+                      <input type="date" class="input" id="check out">
+                  </div>
+                  <div class="input-group">
+                      <label for="adults" class="input-label">Adults</label>
+                      <select class="options" id="adults">
+                          <option value ="0">0</option>
+                          <option value ="0">1</option>
+                          <option value ="0">2</option>
+                          <option value ="0">3</option>
+                          <option value ="0">4</option>
+                          <option value ="0">5</option>
+                      </select>
+                  </div>
+                  <div class="input-group">
+                      <label for="children" class="input-label">Children</label>
+                      <select class="options" id="children">
+                          <option value ="0">0</option>
+                          <option value ="0">1</option>
+                          <option value ="0">2</option>
+                          <option value ="0">3</option>
+                          <option value ="0">4</option>
+                          <option value ="0">5</option>
+                      </select>
+                  </div>
+                  <button type="submit" class="btn form-btn btn-purple">Search
+                      <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
+                  </button>
+              </form>
+          </div>
+      </section>
+
+      <section class="hotels">
+          <div class="container">
+              <h5 class="section-head">
+                  <span class="heading">Explore</span>
+                  <span class="sub-heading">Our beautiful hotels</span>
+              </h5>
+              <div class="grid">
+                  <div class="grid-item featured-hotels">
+                      <img class="hotel-image" src="https://bit.ly/3oNkO0v" alt="">
+                      <h5 class="hotel-name">Jetwing Negombo</h5>
+                      <span class="hotel-price">From $200/Night</span>
+                      <div class="hotel-rating">
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star-half rating"></i>
+                      </div>
+                      <a href="#" class="btn btn-gradient">Book Now
+                          <span class="dots"><i class ="fas fa-ellipsis-h"></i></span>
+                      </a>
+                  </div>
+
+                  <div class="grid-item featured-hotels">
+                      <img class="hotel-image" src="https://bit.ly/33nXpdH" alt="">
+                      <h5 class="hotel-name">The Oberoi|Udaivillas</h5>
+                      <span class="hotel-price">From $2000/Night</span>
+                      <div class="hotel-rating">
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                      </div>
+                      <a href="#" class="btn btn-gradient">Book Now
+                          <span class="dots"><i class ="fas fa-ellipsis-h"></i></span>
+                      </a>
+                  </div>
+                  <div class="grid-item featured-hotels">
+                      <img class="hotel-image" src="https://bit.ly/33p3Zkb" alt="">
+                      <h5 class="hotel-name">Radisson Blu Mauritius</h5>
+                      <span class="hotel-price">From $1500/Night</span>
+                      <div class="hotel-rating">
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                          <i class="fas fa-star rating"></i>
+                      </div>
+                      <a href="#" class="btn btn-gradient">Book Now
+                          <span class="dots"><i class ="fas fa-ellipsis-h"></i></span>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </section>
+      <section class="offer">
+          <div class="container">
+              <div class="offer-content">
+                  <div class="discount">
+                      40% off
+                  </div>
+                  <h5 class="hotel-name">Kandalama</h5>
+                  <div class="hotel-rating">
+                      <i class="fas fa-star rating"></i>
+                      <i class="fas fa-star rating"></i>
+                      <i class="fas fa-star rating"></i>
+                      <i class="fas fa-star rating"></i>
+                      <i class="fas fa-star-half rating"></i>
+                  </div>
+                  <p class="paragraph">
+                      Heritance Kandalama is shaped like the outspread wings of a bird, following the line of the cliff from which it seems to emerge. The hotel is a staggering 1km from end to end, and rises up seven floors, yet appears to be a perfectly natural extension of the mountainside. The flat roof and timber pillars support a screen of vegetation that attracts local wildlife. The abundance of real-life animals around the hotel is complemented by wonderful large-scale sculptures within it. A metal owl is suspended outside the main restaurant; wooden elephants inhabit the lounge; a stone cobra uncoils along the terrace overlooking the infinity pool. However, while focusing on highlighting its enchanting natural surroundings, our luxury resort in Sri Lanka gives priority to providing its guests with the finest comforts and service.
+                  </p>
+                  <a href="#" class="btn btn-gradient">Redeem offer
+                      <span class="dots"><i class ="fas fa-ellipsis-h"></i></span>
+                  </a>
+              </div>
+          </div>
+      </section>
+
+      <section class="rooms">
+          <div class="container">
+              <h5 class="section-head">
+                  <span class="heading">Luxurious</span>
+                  <span class="sub-heading">Affordable Hotels</span>
+              </h5>
+              <div class="grid rooms-grid">
+                  <div class="grid-item featured-rooms">
+                      <div class="image-wrap">
+                          <img class="room-image" src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="">
+                          <h5 class="room-name">Jetwing Negombo</h5>
+                      </div>
+                      <div class="room-info-wrap">
+                          <span class="room-price">$200 <span class="per-night">Per night</span></span>
+                          <p class="paragraph">
+                              Surrounded by the rhythmic sounds of the sea, Jetwing Beach lies near the golden sands of the resort town of Negombo, basking in the glorious tropical sunshine of this island paradise.
+                          </p>
+                          <a href="#" class="btn rooms-btn">Book now &rarr;</a>
+                      </div>
+                  </div>
+                  <div class="grid-item featured-rooms">
+                      <div class="image-wrap">
+                          <img class="room-image" src="https://bit.ly/3GA5aeO" alt="">
+                          <h5 class="room-name">Jetwing Vil Uyana</h5>
+                      </div>
+                      <div class="room-info-wrap">
+                          <span class="room-price">$500 <span class="per-night">Per night</span></span>
+                          <p class="paragraph">
+                              Our name refers to a garden of lakes, a tribute most fitting to our agrarian ancestors, who once served a prosperous country from these fertile lands of our Sigiriya hotel.
+                          </p>
+                          <a href="#" class="btn rooms-btn">Book now &rarr;</a>
+                      </div>
+                  </div>
+                  <div class="grid-item featured-rooms">
+                      <div class="image-wrap">
+                          <img class="room-image" src="https://bit.ly/3IM4FQA" alt="">
+                          <h5 class="room-name">Jetwing Warwick</h5>
+                      </div>
+                      <div class="room-info-wrap">
+                          <span class="room-price">$400 <span class="per-night">Per night</span></span>
+                          <p class="paragraph">
+                              Decked with plantations of liquid gold, the rolling hills of our central highlands have always been a sight to behold. It comes as no wonder then, that the colonial tea barons of yore naturally held themselves to the highest of standards known to Ceylon.
+                          </p>
+                          <a href="#" class="btn rooms-btn">Book now &rarr;</a>
+                      </div>
+                  </div>
+                  <div class="grid-item featured-rooms">
+                      <div class="image-wrap">
+                          <img class="room-image" src="https://bit.ly/3DNqj3o" alt="">
+                          <h5 class="room-name">Shangri-La's Hambantota</h5>
+                      </div>
+                      <div class="room-info-wrap">
+                          <span class="room-price">$600 <span class="per-night">Per night</span></span>
+                          <p class="paragraph">
+                              All 274 luxury rooms and suites offer magnificent views of the golf course, the resort’s tropical gardens or the calm waves of the Indian Ocean. 
+                          </p>
+                          <a href="#" class="btn rooms-btn">Book now &rarr;</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <section class="contact">
+          <div class="container">
+              <h5 class="section-head">
+                  <span class="heading">Contact Us</span>
+                  <span class="sub-heading">Get in touch with us!</span>
+              </h5>
+              <div class="contact-content">
+                  <div class="traveler-wrap">
+                      <img src="https://lh3.googleusercontent.com/proxy/8tyiN4z1JnoN3_JkN9PHjae0AUyRLkZnvQ1NbByKzJ-MEvgnFLsJ25FsfQcGWGAipEd2xt2Q1pjh3_OKhLoGJLxayS0ejQUCNitTllZGvrMhF_jGkOVlOde9X16Fvym-FBibXaNeFg3G0zuFbapqijuSwQ" alt="">
+                  </div>
+                  <form action="" class="form contact-form">
+                      <div class="input-group-wrap">
+                          <div class="input-group">
+                              <input type="text" class="input" placeholder="Name" required>
+                              <span class="bar"></span>
+                          </div>
+                          <div class="input-group">
+                              <input type="email" class="input" placeholder="E-mail" required>
+                              <span class="bar"></span>
+                          </div>
+                      </div>
+                          <div class="input-group">
+                              <input type="text" class="input" placeholder="Subject" required>
+                              <span class="bar"></span>
+                          </div>
+                          <div class="input-group">
+                              <textarea class="input" cols="30" rows="8" placeholder="E-mail" required></textarea>
+                              <span class="bar"></span>
+                          </div>
+                      <button type="submit" class="btn form-btn btn-purple">Send Message
+                          <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
+                      </button>
+                  </form>
+              </div>
+          </div>
+      </section>
+  </main>
+
+  <footer class="footer">
+      <div class="container">
+          <div class="footer-content">
+              <div class="footer-content-brand">
+                  <h6 class="about-heading">Ayubowan!</h6>
+                  <div class="paragraph">
+                      Ayubowan! is one of the leading travel agencies that provide inbound and outbound travel services, established in 2009, our company has progressed immensely over the years, making us a prime provider of exceptional touring services for tourists and local travelers.
+                  </div>
+              </div>
+              <div class="social-media-wrap">
+                  <h4 class="footer-heading">Follow us</h4>
+                  <div class="social-media">
+                      <a href="#" class="sm-link"><i class="fab fa-twitter"></i></a>
+                      <a href="#" class="sm-link"><i class="fab fa-facebook-square"></i></a>
+                      <a href="#" class="sm-link"><i class="fab fa-instagram"></i></a>
+                      <a href="#" class="sm-link"><i class="fab fa-pinterest"></i></a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </footer>
+</body>
+</html>
