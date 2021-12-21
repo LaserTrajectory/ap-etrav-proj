@@ -171,9 +171,6 @@
                 <a>
                     <img src="{{ hotel.image.url }}" alt="" width="200" height="200">
                 </a>
-                <span class="product-discount-label">
-                  -20%
-                </span>
               </div>
               <div class="product-content">
                 <h3 class="title">
@@ -186,6 +183,7 @@
                       border-color: black;
                     }
                   </style>
+                  <span class="ml-1">{{ hotel.hotel_rating }} </span>
                   {% if hotel.hotel_rating == 5 %}
                   <i class="fa fa-star"></i>
                   <i class="fa fa-star"></i>
@@ -217,7 +215,6 @@
                   <i class="fa fa-star-o"></i>
                   <i class="fa fa-star-o"></i>
                   {% endif %}
-                  <span class="ml-1">{{ hotel.hotel_rating }} <a href="#!" class="material-tooltip-main card-link" data-toggle="tooltip" data-placement="top" title="Read reviews">(542 reviews)</a></span>
   </ul>
                 </div>
                 <div class="availability"> 

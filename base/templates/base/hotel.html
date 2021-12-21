@@ -2,27 +2,118 @@
 
 {% block content %}
 
-    <div class="container border border-white mt-2">
+    <div class="container m-3">
+      <h1>
         <a href="{{ hotel.get_abs_url }}">{{ hotel.hotel_name }}</a>
-        <div class="container m-3">
-            <img src="{{ hotel.image.url }}" alt="" width="200" height="200">
-        </div>
-        <div class="container border border-white m-3">
-            <p>{{ hotel.description }}</p>
-            <p>{{ hotel.hotel_rating }}</p>
-            <p>{{ hotel.location.city }}, {{ hotel.location.country }}</p>
-        </div>
+      </h1>
     </div>
 
-    <div class="container">
+    <div class="container m-3 p-3">
+      <img src="{{ hotel.image.url }}" alt="" width="100%">
+    </div>
 
-        <div class="container border border-white m-2 p-2">
-            <h3>Reviews</h3>
+    <div class="container m-3 p-3">
+      <div class="row">
+        <div class="col-md">
+          <h3>Description</h3>
+          <p>{{ hotel.description }}</p>
+        </div>
+        <div class="col-md">
+          <h3>Rating</h3>
+          {{ hotel.hotel_rating }}
+          {% if hotel.hotel_rating == 5 %}
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          {% elif hotel.hotel_rating == 4 %}
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star-o"></i>
+          {% elif hotel.hotel_rating == 3 %}
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star-o"></i>
+          <i class="fa fa-star-o"></i>
+          {% elif hotel.hotel_rating == 2 %}
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star-o"></i>
+          <i class="fa fa-star-o"></i>
+          <i class="fa fa-star-o"></i>
+          {% elif hotel.hotel_rating == 1 %}
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star-o"></i>
+          <i class="fa fa-star-o"></i>
+          <i class="fa fa-star-o"></i>
+          <i class="fa fa-star-o"></i>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md">
+          <h3>Location</h3>
+          <p>{{ hotel.location.city }}, {{ hotel.location.country }}</p>
+        </div>
+        <div class="col-md">
+          <h3>Amenities</h3>
+          <ul>
+            <li>Infinity pool</li>
+            <li>Complimentary breakfast</li>
+            <li>Beautiful views</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container m-3 p-3">
+      <hr style="background-color: white;">
+    </div>
+
+    <div class="container m-3 p-3">
+      <div class="row">
+        <div class="col-md">
+          <h3>Reviews</h3>
             {% for review in reviews %}
-              <div>
+              <div class="container">
                 <p>Date: {{ review.post_date }} | User: {{ review.user.username }}</p>
                 <p>{{ review.review }}</p>
-                <p>{{ review.user_rating }} star(s)</p>
+                {{ review.user_rating }}
+                {% if review.user_rating == 5 %}
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                {% elif review.user_rating == 4 %}
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+                {% elif review.user_rating == 3 %}
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                {% elif review.user_rating == 2 %}
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                {% elif review.user_rating == 1 %}
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                {% endif %}
               </div>
             {% empty %}
               <div>
@@ -30,9 +121,36 @@
               </div>
             {% endfor %}
         </div>
+      </div>
+    </div>
 
-        <div class="container border border-white m-2 p-3">
-            <h2>Add a review</h2>
+    <div class="container m-3 p-3">
+      <div class="row">
+        <div class="col-lg">
+          <h3>Available rooms</h3>
+        </div>
+      </div>
+      <div class="row">
+        {% for room in rooms %}
+        <div class="col-lg-4">
+            <div class="container m-2 p-2 border border-grey">
+                {% if room.is_booked != True %}
+                    <p>#{{ room.room_number }} | This room is available!</p>
+                    <a class="btn bg-steel btn-md ml-1 m-2" href="{{ room.get_abs_url }}" style="color: black;">Book this room <span class="sr-only">(current)</span></a>
+                {% else %}
+                    <p>#{{ room.room_number }} | This room has been booked.</p>
+                    <a class="btn btn-secondary btn-md ml-1 m-2 disabled" href="{{ room.get_abs_url }}" style="color: black;" disabled>Book this room <span class="sr-only">(current)</span></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="container m-3 p-3">
+      <div class="row">
+        <div class="col-lg">
+          <h3>Add a review</h2>
             <form method="POST" action="">
                 {% csrf_token %}
                 <div class="form-group">
@@ -50,24 +168,11 @@
                     </select>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary btn-lg mt-2">Submit</button>
             </form>
         </div>
+      </div>
     </div>
 
-
-    <div class="container border border-white m-2 p-2">
-        <h3>Available rooms</h3>
-        {% for room in rooms %}
-            <div class="container border border-white m-2">
-                <p>#{{ room.room_number }} | Is booked: {{ room.is_booked }} </p>
-                {% if room.is_booked != True %}
-                    <a class="btn bg-steel btn-md ml-1 m-2" href="{{ room.get_abs_url }}" style="color: black;">Book this room <span class="sr-only">(current)</span></a>
-                {% else %}
-                    <p>Booked</p>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
 
 {% endblock content %}
