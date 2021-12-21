@@ -235,3 +235,7 @@ def my_booking_view(request):
     }
 
     return render(request, "base/my-bookings.html", context)
+
+def contact_us_view(request):
+
+    return render(request, "base/contact-us.html")
