@@ -2,10 +2,162 @@
 
 {% block content %}
 
+<style>
+    
+  body{
+    background-size: cover;
+  }
+  
+  .product-grid{
+    font-family: tahoma;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid grey;
+    margin-top: 50px;
+    width: 1000px;
+    align-self: center;
+  }
+  
+  .product.grid:before{
+    content:'';
+    height: 100%;
+    width: 100%;
+    position : absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    transition: all 0.3s ease 0s;     
+  }
+  
+  .product-grid:hover:before{
+    background-color: rgba(0, 0, 0, 0.75)
+  }
+  
+  .product-grid .product-image{
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .product-grid .product-image a{
+    display: block;
+  }
+  
+  .product-grid .product-image img{
+    width: 100%;
+    height: auto;
+  }
+  
+  .product-discount-label{
+    color: white;
+    background-color: #18b4c9;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+  }
+  
+  .product-grid .social{
+    width: 100%;
+    padding: 30px 0;
+    margin: 0;
+    transform: translateX(-50%) translateY(-50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+  }
+  
+  .product-grid .social li{
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(300%);
+    transition: all 0.5s ease 0s;     
+  }
+  
+  .product-grid .social li:nth-child(2){
+    transition-delay: 0.05s;
+  }
+  
+  .product-grid .social li:nth-child(3){
+    transition-delay: 0.13s;
+  }
+
+  .product-grid:hover .social li{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .product-grid .social li a{
+    color: #000;
+    background-color: #fff;
+    line-height: 50px;
+    width: 50px;
+    height: 50px;
+    margin: 0 2x 10px;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s;
+  }
+  
+  .product-grid .social li a:hover{
+    color: white;
+    background-color:#18b4c9;
+  }
+  
+  .product.grid .product-content{
+    padding: 18px;
+    position: relative;
+    z-index: 2;
+    background-color: white;
+  }
+  
+  .product-grid .title{
+    font-size: 17px;
+    font-weight: 500;
+    margin: 15px 0px 5px 0px;
+  }
+
+  .product-grid .price{
+    font-size: 15px;
+    font-weight: 500;
+    margin: 10px 0 5 0;  
+  }
+  
+  .product-grid .availability{
+    font-size: 15px;
+    font-weight: 500;
+    margin: 10px 0 100 0;  
+  }
+
+  .product-grid .title a{
+    color: #fff;
+  }
+  
+  .product-grid .title a:hover{
+    color: #fa8231;
+  }
+  
+  .product-grid .price{
+    color: #fa8231;
+  }
+  
+  .product-grid .rating{
+    top: 30px;
+    bottom: 20px;
+  }
+  
+</style>
+
     <form action="search-form" method="GET">
 
-        <input class="form-control py-2 border-right-0 border mt-2 mb-2" type="search" name="location_contains" placeholder="City name contains..." id="tags" />
-        <input class="form-control py-2 border-right-0 border mt-2 mb-2" type="search" name="hotel_contains" placeholder="Hotel name contains..." />
+        <input class="form-control py-2 border-right-0 border m-2" type="search" name="location_contains" placeholder="City name contains..." id="tags" />
+        <input class="form-control py-2 border-right-0 border m-2" type="search" name="hotel_contains" placeholder="Hotel name contains..." />
 
         <div class="form-group col-md-4 col-lg-4">
             <label for="location">Countries</label>
@@ -29,16 +181,98 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-outline-primary mt-2">Search</button>
-        <a class="nav-item nav-link" href="{% url 'base:search-filter' %}">Clear</a>
+        <div class="container m-2 p-2">
+          <button type="submit" class="btn btn-outline-primary mt-2">Search</button>
+          <a class="nav-item nav-link" href="{% url 'base:search-filter' %}">Clear</a>
+        </div>
 
     </form>
 
-    <div class="container mt-2 p-2 border border-white">
+    <h2 class="m-2 p-2">{{ qs_count }} result(s)...</h2>
+
+    <div class="container align-items-center">
+        <div class="row align-items-center">
         {% for hotel in queryset %}
-            <p> {{ hotel.hotel_name }} | {{ hotel.location }} | {{ hotel.hotel_rating }}</p>
+          <div class="col-md">
+            <div class="product-grid">
+              <div class="product-image">
+                <a>
+                    <img src="{{ hotel.image.url }}" alt="" width="200" height="200">
+                </a>
+              </div>
+              <div class="product-content">
+                <h3 class="title">
+                  <a class="article-title" href="{{ hotel.get_abs_url}}">{{ hotel.hotel_name }}</a>
+                </h3>
+                <div class="rating">
+                  <style>
+                    .fa.fa-star{
+                      color: yellow;
+                      border-color: black;
+                    }
+                  </style>
+                  <span class="ml-1">{{ hotel.hotel_rating }} </span>
+                  {% if hotel.hotel_rating == 5 %}
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  {% elif hotel.hotel_rating == 4 %}
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o"></i>
+                  {% elif hotel.hotel_rating == 3 %}
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  {% elif hotel.hotel_rating == 2 %}
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  {% elif hotel.hotel_rating == 1 %}
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  {% endif %}
+  </ul>
+                </div>
+                <div class="availability"> 
+                  Location: {{ hotel.location.city }}, {{ hotel.location.country }}
+                </div>
+              </div>
+              <ul class="social">
+                <li>
+                  <a href="{{ hotel.get_abs_url }}" data-tip="quick view">
+                    <i class="fa fa-eye"></i>
+                  </a>
+                </li>
+                
+                <!--<li>
+                  <a href="{{ prod.get_add_to_wishlist_url }}" data-tip="wishlist">
+                    <i class="fa fa-heart"></i>
+                  </a>
+                </li>-->
+                
+                <!--<li>
+                  <a href="{{ prod.get_add_to_cart_url }}" data-tip="add to cart">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </li>-->
+              </ul>
+            </div>
+          </div>
         {% endfor %}
-    </div>
+        </div>
+      </div>
 
 
 

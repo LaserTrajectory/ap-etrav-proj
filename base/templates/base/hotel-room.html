@@ -3,16 +3,20 @@
 
 {% block content %}
 
-    <h1>{{ room.hotel.hotel_name }}</h1>
+    <h1 class="m-3 p-3">{{ room.hotel.hotel_name }}</h1>
 
-    <p>Room number: {{ room.room_number }}</p>
+    <h3 class="m-3 p-3">Room number: {{ room.room_number }}</h3>
 
-    <p>Is booked: {{ room.is_booked }}</p>
+    <div class="container m-3 p-3">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <p style="text-align: center"><input type="submit" value="Book"></p>
+        </form>
+    </div>
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_table }}
-        <p style="text-align: center"><input type="submit" value="Book"></p>
-    </form>
+    <div class="container m-3 p-3">
+        <img src="{{ room.hotel.image.url }}" alt="" width="100%">
+    </div>
 
 {% endblock content %}

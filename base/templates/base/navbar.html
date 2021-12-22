@@ -11,15 +11,16 @@
             <a class="btn bg-steel btn-md ml-1" href="{% url 'base:hotels' %}" style="color: black;">View Hotels <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="btn bg-steel btn-md ml-1" href="{% url 'base:contact-us' %}" style="color: black;">Contact Us <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="btn bg-steel btn-md ml-1" href="{% url 'base:about-us' %}" style="color: black;">About Us <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
             <a class="btn bg-steel btn-md ml-1" href="{% url 'base:search-filter' %}" style="color: black;">Search Hotels <span class="sr-only">(current)</span></a>
           </li>
-          
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="btn bg-steel btn-md ml-1" href="{% url 'base:contact-us' %}" style="color: black;">Contact Us <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="btn bg-steel btn-md ml-1" href="{% url 'base:about-us' %}" style="color: black;">About Us <span class="sr-only">(current)</span></a>
+        </li>
       </ul>
     </div>
     <li class="nav-item dropdown nav-user"> <a class="nav-link nav-user-img" href="{% url 'base:profile' %}" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ picture }}" alt="" class="user-avatar-md rounded-circle" height="32px" width="32px"></a></li>

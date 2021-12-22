@@ -2,8 +2,9 @@
 
 {% block content %}
 
-    <h1>Success! Your booking was placed!</h1>
+    <h1 class="m-2 p-2">Success! Your booking was placed!</h1>
 
-    <a class="btn bg-steel btn-md ml-1" href="{% url 'base:booking-pdf' %}" style="color: black;">Download acknowledgement letter <span class="sr-only">(current)</span></a>
+    <p class="m-2 p-2"><a class="btn bg-steel btn-md ml-1" href="{% url 'base:booking-pdf' %}" style="color: black;">Download acknowledgement letter <span class="sr-only">(current)</span></a></p>
+    <p class="m-2 p-2"><a class="btn bg-steel btn-md ml-1" href="{% url 'base:profile' %}" style="color: black;">Back to my profile <span class="sr-only">(current)</span></a></p>
 
 {% endblock content %}

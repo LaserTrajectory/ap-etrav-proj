@@ -2,6 +2,855 @@
 
 {% block content %}
 
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Courgette|Open+Sans:400,800&display=swap');
+
+  /*navbar*/
+  *,
+  *::before,
+  *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+  :root {
+      --dark-color: #2d2c2c;
+      --purple-solid: #350a4f;
+      --purple-transparent: rgba(53, 10, 79, .7);
+      --purple-transparent-alt: rgba(53, 10, 79, .5);
+      --purple-light: #8f50fb;
+      --yellow-solid: #fa9e2c;
+      --gradient-color: linear-gradient(to right, var(--yellow-solid), var(--purple-light));
+      --gradient-color-alt: linear-gradient(to right, var(--purple-light), var(--yellow-solid));
+  }
+
+  html {
+      font-size: 10px;
+  }
+
+  body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 1.6rem;
+      color: var(--dark-color);
+  }
+
+  a {
+      text-decoration: none;
+      color: inherit;
+  }
+
+  ul {
+      list-style: none;
+  }
+
+  section {
+      padding: 5rem 0;
+  }
+
+  .container {
+      width: 100%;
+      max-width: 120rem;
+      padding: 0 1.5rem;
+      margin: 0 auto;
+  }
+
+  .btn {
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: .5rem 3.5rem;
+      border: none;
+      border-radius: 10rem;
+      display: inline-flex;
+      align-items: center;
+  }  
+
+  .form-btn {
+      margin-top: 2.5rem;
+      cursor: pointer;
+  }
+
+  .btn-gradient {
+      background-image: var(--gradient-color);
+  }
+
+  .btn-gradient:hover {
+      background-image: var(--gradient-color-alt);
+  }
+
+  .btn-purple {
+      background-color: var(--purple-solid);
+      transition: background-color .5s;
+  }
+
+  .btn-purple:hover {
+      background-color: #56247f;
+  }
+
+  .dots {
+      font-size: 2.4rem;
+      margin-left: .5rem;
+      opacity: .75;
+  }
+
+  .header {
+      width: 100%;
+      height: 6rem;
+      display: flex;
+      align-items: center;
+      top: 0;
+      left: 0;
+      position: fixed;
+      background-color: var(--purple-transparent);
+      z-index: 999;
+      transition: background-color .5s, height .5s;
+  }
+
+  .header.active {
+      background-color: var(--purple-solid);
+  }
+
+  .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  }
+
+  .logo-image {
+      max-width: 80%;
+  }
+
+  .hamburger-menu {
+      font-size: 4rem;
+      color: #fff;
+      cursor: pointer;
+      position: relative;
+      z-index: 1500;
+  }
+
+  .close-state {
+      display: none;
+  }
+
+  .menu-open .open-state {
+      display: none;
+  }
+
+  .menu-open .close-state {
+      display: block;
+  }
+
+  .nav-list {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: var(--purple-solid);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1400;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity .5s;
+  }
+
+  .menu-open .nav-list {
+      opacity: 1;
+      transform: scale(1);
+  }
+
+  .nav-item:not(:last-child) {
+      margin-bottom: .5rem;
+  }
+
+  .nav-link {
+      display: block;
+      color: #fff;
+      font-size: 3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 1rem;
+  }
+  /*home slider*/
+  .hero {
+      width: 100%;
+      height: 100vh;
+      background: url("https://bit.ly/3GGAk4l") center no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 0;
+  }
+
+  .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      background-color: var(--purple-transparent-alt);
+      z-index: -1;
+  }
+
+  .main-heading {
+      color: #fff;
+      line-height: 1;
+      text-shadow: 1px 1px 1rem rgba(0, 0, 0, .5);
+      margin-bottom: 2.5rem;
+  }
+
+  .title {
+      font-size: 4.8rem;
+      text-transform: uppercase;
+      letter-spacing:	3px;
+  }
+
+  .sub-title {
+      font-size: 	3.6rem;
+      font-weight: 300;
+      font-family: 'Courgette', cursive;
+  }
+
+  /*Booking section*/
+  .booking {
+      background-image: var(--gradient-color);
+  }
+
+  .input-group {
+      margin-bottom: 1.5rem;
+  }
+
+  .input-label {
+      display: block;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      color: #fff;
+      font-weight: bold;
+      margin-bottom: 1rem;
+  }
+
+  .input,
+  .options {
+      outline: none;
+      border: none;
+      width: 100%;
+      min-height: 4rem;
+      padding: 1rem;
+      font-weight: bold;
+      color: #a5a5a5;
+      letter-spacing: 2px;
+      font-family: "Open Sans", sans-serif;
+      resize: none;
+  }
+
+  ::placeholder {
+      color: inherit;
+  }
+
+  /*Features hotels section styles*/
+  .section-head {
+      text-align: center;
+      margin-bottom: 5rem;
+      color: white;
+  }
+
+  .section-head-rooms {
+      text-align: center;
+      margin-bottom: 5rem;
+      color: black;
+  }
+
+  .heading {
+      display: block;
+      font-size: 4rem;
+      text-transform: uppercase;
+  }
+
+  .sub-heading {
+      font-size: 1.7rem;
+      font-family: 'Courgette', cursive;
+      font-weight: 300;
+      color: #a5a5a5;
+  }
+
+  .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+      grid-gap: 2.5rem;
+  }
+
+  .grid-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .featured-hotels {
+      height: 35rem;
+      color: #fff;
+      padding: 1rem;
+      position: relative;
+      z-index: 0;
+  }
+
+  .featured-hotels::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--purple-transparent-alt);
+      z-index: -1;
+  }
+
+  .hotel-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+  }
+
+  .hotel-name {
+      font-size: 2.6rem;
+  }
+
+  .hotel-price {
+      font-size: 1.8rem;
+      margin: 0.5rem;
+  }
+
+  .hotel-rating {
+      margin: 1rem 0 2.5rem;
+  }  
+
+  .rating {
+      color: var(--yellow-solid);
+  }
+
+  .offer {
+      background: linear-gradient(to right, rgba(250, 158, 44, 0.8), rgba(143, 80, 251, 0.8)), 
+      url("https://bit.ly/3DHSq40") bottom center no-repeat;
+      background-size: cover;
+  }
+
+  .offer-content {
+      background-color: #fff;
+      text-align: center;
+      padding: 5rem 1rem;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .discount {
+      background-color: var(--yellow-solid);
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      outline: 2px solid var(--yellow-solid);
+      outline-offset: .5rem;
+  }
+
+  .paragraph {
+      color: #a5a5a5;
+      margin-bottom: 2.5rem;
+  }
+
+  /*rooms luxuries*/
+  .rooms{
+      background-color: #f2f6f9;  
+  }
+
+  .image-wrap{
+      position: relative;
+      height: 25rem;
+  }
+
+  .image-wrap::after{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%; 
+      background-color: var(--purple-transparent-alt);
+  }
+
+  .room-image{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+
+  .room-name{
+      font-size: 1.5rem;
+      background-color: var(--yellow-solid);
+      color: #fff;
+      padding: .5rem 2rem;
+      position: absolute;
+      left: 0;
+      bottom: 2.5rem;
+      z-index: 10;
+  }
+
+  .room-price {
+      display: block;
+      font-size: 3.6rem;
+      font-weight: bold;
+      color: var(--yellow-solid);
+  }
+
+  .per-night {
+      color: var(--dark-color);
+      font-size: 1.4rem;
+      font-weight: 100;
+  }
+
+  .rooms-btn {
+      color: var(--dark-color);
+      padding: 10;
+      transition: color .5s;
+  }
+
+  .rooms-btn:hover {
+      color: var(--yellow-solid);
+  }
+
+  /*contact section*/
+  .contact-content {
+      display: flex;
+      justify-content: center;
+  }
+
+  .traveler-wrap{
+      display: none;
+  }
+
+  .contact-form{
+      width: 100%;
+      background-image: var(--gradient-color);
+      padding: 2.5rem;
+  }
+
+  .contact-form .input{
+      display: block;
+      background-color: transparent;
+      color: #fff;
+      font-weight: normal;
+      border-bottom: 2px solid #fff;
+      padding-left: 0;
+  }
+
+  .bar{
+      display: block;
+      position: relative;
+  }
+
+  .bar::after{
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--purple-light);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .5s;
+  }
+
+  .contact-form .input:focus + .bar::after{
+      transform: scaleX(1);
+  }
+
+  /*footer*/
+  .footer{
+      padding: 5rem 0;
+      background-color: var(--purple-solid);
+      color: #fff;
+  }
+
+  .footer-content-brand{
+      margin-bottom: 5rem;
+  }
+
+  .footer .paragraph{
+      color: inherit;
+  }
+
+  .footer-heading{
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+  }
+
+  .about-heading{
+      font-size: 2rem;
+      font-family: 'Courgette', cursive;
+      text-transform: uppercase;
+      letter-spacing:	3px;
+      margin-left: 2rem;
+      color:	#fff;
+  }
+
+  .logo-heading{
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing:	3px;
+      color:	#fff;
+  }
+
+  .social-media{
+      display: flex;
+  }
+
+  .sm-link{
+      width: 4rem;
+      height: 4rem;
+      font-size: 2rem;
+      border: 2px solid var(--yellow-solid);
+      border-radius: 50%;
+      display: flex;
+      margin-right: 1rem;
+      transition: background-color .5s;
+  }
+
+  .sm-link:hover{
+      background-color: var(--yellow-solid);
+      color: var(--dark-color);
+  }
+
+  .sm-link i{
+      margin: auto;
+  }
+
+  /*media queries*/
+  @media screen and (min-width: 768px){
+      /*header section styles*/
+      .header{
+          height: 10rem;
+      }
+
+      .header.active{
+          height: 6rem;
+      }
+
+      /*hero section styles*/
+      .title{
+          font-size: 8rem;
+      }
+
+      /*contact section styles*/
+      .contact-content{
+          justify-content: space-between;
+      }
+      
+      .traveler-wrap{
+          display: block;
+          flex: 0 0 45%;
+      }
+
+      .traveler-wrap img{
+          width: 100%;
+      }
+
+      .contact-form{
+          flex: 0 0 50%;
+          align-self: flex-start;
+      }
+
+      .input-group-wrap{
+          display: flex;
+      }
+
+      .input-group-wrap .input-group{
+          width: 50%;
+          margin-right: 2rem;
+      }
+      .input-group-wrap .input-group:last-child{
+          margin-right: 0;
+      }
+      
+      /*footer section*/
+      .footer{
+          overflow-x: hidden;
+      }
+      .footer-content{
+          display: flex;
+      }
+
+      .footer-content-brand{
+          margin-bottom: 0;
+          flex: 0 0 75%;
+      }
+
+      .footer .paragraph{
+          margin-top: 2.5rem;
+          margin-right: 2.5rem;
+          margin-left: 2rem;
+          text-align: justify;
+      }
+
+      .footer-heading{
+          margin-bottom: 1.5rem;
+      }
+
+      .social-media-wrap{
+          flex: 0 0 40%;
+          margin-left: 2.5rem;
+      }
+  }
+
+  @media screen and (min-width: 1000px){
+      section:not(.booking){
+          padding: 10rem 0;
+      }
+
+      .hamburger-menu{
+          display: none;
+      }
+
+      .nav-list{
+          position: initial;
+          width: initial;
+          height: initial;
+          background-color: transparent;
+          flex-direction: row;
+          justify-content: initial;
+          opacity: 1;
+          transform: scale(1);
+      }
+
+      .nav-item:not(:last-child){
+          margin-right: 3rem;
+          margin-bottom: 0;
+      }
+
+      .nav-link{
+          font-size: 1.3rem;
+          font-weight: normal;
+          transition: color .5s;
+      }
+
+      .nav-link:hover{
+          color: var(--yellow-solid);
+      }
+
+      /*hero section styles*/
+      .title{
+          font-size: 12rem;
+      }
+
+      .sub-title{
+          font-size: 4.6rem;
+      }
+
+      /*booking*/
+      .book-form{
+          display: flex;
+          justify-content: space-between;
+      }
+
+      .book-form .input-group{
+          margin-bottom: 0;
+          padding: 0.5rem;
+      }
+
+      .book-form .input-group:first-child{
+          flex: 0 0 20%;
+      }
+
+      .input,
+      .options{
+          min-width: 10rem;
+      }
+
+      /*rooms sections styles*/
+      .rooms-grid{
+          grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
+          grid-gap: 8rem;
+      }
+
+      .featured-rooms{
+          flex-direction: row;
+          flex-direction: column;
+          align-items: flex-start;
+      }
+
+      .room-info-wrap{
+          margin-left: 1.5rem;
+          font-size: 1.5rem;
+          margin-right: 0.5rem;
+          text-align: justify;
+
+      }
+  }
+  @media screen and (min-width: 1200px){
+      .book-form .input-group:first-child{
+          flex: 0 0 30%;
+      }
+  }
+
+  .product-grid{
+    font-family: tahoma;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid grey;
+    margin-top: 50px;
+    width: 1000px;
+    align-self: center;
+  }
+  
+  .product.grid:before{
+    content:'';
+    height: 100%;
+    width: 100%;
+    position : absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    transition: all 0.3s ease 0s;     
+  }
+  
+  .product-grid:hover:before{
+    background-color: rgba(0, 0, 0, 0.75)
+  }
+  
+  .product-grid .product-image{
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .product-grid .product-image a{
+    display: block;
+  }
+  
+  .product-grid .product-image img{
+    width: 100%;
+    height: auto;
+  }
+  
+  .product-discount-label{
+    color: white;
+    background-color: #18b4c9;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+  }
+  
+  .product-grid .social{
+    width: 100%;
+    padding: 30px 0;
+    margin: 0;
+    transform: translateX(-50%) translateY(-50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+  }
+  
+  .product-grid .social li{
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(300%);
+    transition: all 0.5s ease 0s;     
+  }
+  
+  .product-grid .social li:nth-child(2){
+    transition-delay: 0.05s;
+  }
+  
+  .product-grid .social li:nth-child(3){
+    transition-delay: 0.13s;
+  }
+
+  .product-grid:hover .social li{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .product-grid .social li a{
+    color: #000;
+    background-color: #fff;
+    line-height: 50px;
+    width: 50px;
+    height: 50px;
+    margin: 0 2x 10px;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s;
+  }
+  
+  .product-grid .social li a:hover{
+    color: white;
+    background-color:#18b4c9;
+  }
+  
+  .product.grid .product-content{
+    padding: 18px;
+    position: relative;
+    z-index: 2;
+    background-color: white;
+  }
+  
+  .product-grid .title{
+    font-size: 17px;
+    font-weight: 500;
+    margin: 15px 0px 5px 0px;
+  }
+
+  .product-grid .price{
+    font-size: 15px;
+    font-weight: 500;
+    margin: 10px 0 5 0;  
+  }
+  
+  .product-grid .availability{
+    font-size: 15px;
+    font-weight: 500;
+    margin: 10px 0 100 0;  
+  }
+
+  .product-grid .title a{
+    color: #fff;
+  }
+  
+  .product-grid .title a:hover{
+    color: #fa8231;
+  }
+  
+  .product-grid .price{
+    color: #fa8231;
+  }
+  
+  .product-grid .rating{
+    top: 30px;
+    bottom: 20px;
+  }
+
+</style>
+
 <section class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start mt-5">
   <div class="container">
     <div class="align-items-center">
@@ -14,27 +863,335 @@
   </div>
 </section>
 
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="https://byatra.com/Content/images/hotel-banner-new.jpg" class="d-block w-100" alt="...">
+<div class="mt-3">
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://byatra.com/Content/images/hotel-banner-new.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="https://cdn.initial.com/content/local/us/images/desktop/main_initial-hotels-banner.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="https://cdn.ambius.com/content/local/uk-amb/images/desktop/main_hotel-banner.jpg" class="d-block w-100" alt="...">
+        </div>
       </div>
-      <div class="carousel-item">
-        <img src="https://cdn.initial.com/content/local/us/images/desktop/main_initial-hotels-banner.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="https://cdn.ambius.com/content/local/uk-amb/images/desktop/main_hotel-banner.jpg" class="d-block w-100" alt="...">
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+</div>
+<br>
+
+  <section class="hotels">
+    <div class="container">
+        <h5 class="section-head">
+            <span class="heading">Recommended for You</span>
+            <span class="sub-heading">Our best locations</span>
+        </h5>
+        <div class="grid">
+            <div class="grid-item featured-hotels">
+                <img class="hotel-image" src="https://bit.ly/3oNkO0v" alt="">
+                <h5 class="hotel-name">{{ final_loc_1 }}</h5>
+                <span class="hotel-price">From $200/Night</span>
+                <div class="hotel-rating">
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star-half rating"></i>
+                </div>
+            </div>
+
+            <div class="grid-item featured-hotels">
+                <img class="hotel-image" src="https://bit.ly/33nXpdH" alt="">
+                <h5 class="hotel-name">{{ final_loc_2 }}</h5>
+                <span class="hotel-price">From $2000/Night</span>
+                <div class="hotel-rating">
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                </div>
+            </div>
+            <div class="grid-item featured-hotels">
+                <img class="hotel-image" src="https://bit.ly/33p3Zkb" alt="">
+                <h5 class="hotel-name">{{ final_loc_3 }}</h5>
+                <span class="hotel-price">From $1500/Night</span>
+                <div class="hotel-rating">
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                    <i class="fas fa-star rating"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<h5 class="section-head">
+  <span class="heading">Recommended Hotels</span>
+  <span class="sub-heading">From our best locations</span>
+</h5>
+
+<div class="container align-items-center">
+  <div class="row align-items-center">
+  {% for hotel in qs_loc_1 %}
+    <div class="col-md">
+      <div class="product-grid">
+        <div class="product-image">
+          <a>
+              <img src="{{ hotel.image.url }}" alt="" width="200" height="200">
+          </a>
+        </div>
+        <div class="product-content">
+          <h3 class="title">
+            <a class="article-title" href="{{ hotel.get_abs_url}}">{{ hotel.hotel_name }}</a>
+          </h3>
+          <div class="rating">
+            <style>
+              .fa.fa-star{
+                color: yellow;
+                border-color: black;
+              }
+            </style>
+            <span class="ml-1">{{ hotel.hotel_rating }} </span>
+            {% if hotel.hotel_rating == 5 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            {% elif hotel.hotel_rating == 4 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            {% elif hotel.hotel_rating == 3 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            {% elif hotel.hotel_rating == 2 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            {% elif hotel.hotel_rating == 1 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            {% endif %}
+</ul>
+          </div>
+          <div class="availability" style="color: white;"> 
+            Location: {{ hotel.location.city }}, {{ hotel.location.country }}
+          </div>
+        </div>
+        <ul class="social">
+          <li>
+            <a href="{{ hotel.get_abs_url }}" data-tip="quick view">
+              <i class="fa fa-eye"></i>
+            </a>
+          </li>
+          
+          <!--<li>
+            <a href="{{ prod.get_add_to_wishlist_url }}" data-tip="wishlist">
+              <i class="fa fa-heart"></i>
+            </a>
+          </li>-->
+          
+          <!--<li>
+            <a href="{{ prod.get_add_to_cart_url }}" data-tip="add to cart">
+              <i class="fa fa-shopping-cart"></i>
+            </a>
+          </li>-->
+        </ul>
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+  {% endfor %}
   </div>
-<br>
+</div>
+
+<div class="container align-items-center">
+  <div class="row align-items-center">
+  {% for hotel in qs_loc_2 %}
+    <div class="col-md">
+      <div class="product-grid">
+        <div class="product-image">
+          <a>
+              <img src="{{ hotel.image.url }}" alt="" width="200" height="200">
+          </a>
+        </div>
+        <div class="product-content">
+          <h3 class="title">
+            <a class="article-title" href="{{ hotel.get_abs_url}}">{{ hotel.hotel_name }}</a>
+          </h3>
+          <div class="rating">
+            <style>
+              .fa.fa-star{
+                color: yellow;
+                border-color: black;
+              }
+            </style>
+            <span class="ml-1">{{ hotel.hotel_rating }} </span>
+            {% if hotel.hotel_rating == 5 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            {% elif hotel.hotel_rating == 4 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            {% elif hotel.hotel_rating == 3 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            {% elif hotel.hotel_rating == 2 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            {% elif hotel.hotel_rating == 1 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            {% endif %}
+</ul>
+          </div>
+          <div class="availability" style="color: white;"> 
+            Location: {{ hotel.location.city }}, {{ hotel.location.country }}
+          </div>
+        </div>
+        <ul class="social">
+          <li>
+            <a href="{{ hotel.get_abs_url }}" data-tip="quick view">
+              <i class="fa fa-eye"></i>
+            </a>
+          </li>
+          
+          <!--<li>
+            <a href="{{ prod.get_add_to_wishlist_url }}" data-tip="wishlist">
+              <i class="fa fa-heart"></i>
+            </a>
+          </li>-->
+          
+          <!--<li>
+            <a href="{{ prod.get_add_to_cart_url }}" data-tip="add to cart">
+              <i class="fa fa-shopping-cart"></i>
+            </a>
+          </li>-->
+        </ul>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+
+<div class="container align-items-center">
+  <div class="row align-items-center">
+  {% for hotel in qs_loc_3 %}
+    <div class="col-md">
+      <div class="product-grid">
+        <div class="product-image">
+          <a>
+              <img src="{{ hotel.image.url }}" alt="" width="200" height="200">
+          </a>
+        </div>
+        <div class="product-content">
+          <h3 class="title">
+            <a class="article-title" href="{{ hotel.get_abs_url}}">{{ hotel.hotel_name }}</a>
+          </h3>
+          <div class="rating">
+            <style>
+              .fa.fa-star{
+                color: yellow;
+                border-color: black;
+              }
+            </style>
+            <span class="ml-1">{{ hotel.hotel_rating }} </span>
+            {% if hotel.hotel_rating == 5 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            {% elif hotel.hotel_rating == 4 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            {% elif hotel.hotel_rating == 3 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            {% elif hotel.hotel_rating == 2 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            {% elif hotel.hotel_rating == 1 %}
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            {% endif %}
+</ul>
+          </div>
+          <div class="availability" style="color: white;"> 
+            Location: {{ hotel.location.city }}, {{ hotel.location.country }}
+          </div>
+        </div>
+        <ul class="social">
+          <li>
+            <a href="{{ hotel.get_abs_url }}" data-tip="quick view">
+              <i class="fa fa-eye"></i>
+            </a>
+          </li>
+          
+          <!--<li>
+            <a href="{{ prod.get_add_to_wishlist_url }}" data-tip="wishlist">
+              <i class="fa fa-heart"></i>
+            </a>
+          </li>-->
+          
+          <!--<li>
+            <a href="{{ prod.get_add_to_cart_url }}" data-tip="add to cart">
+              <i class="fa fa-shopping-cart"></i>
+            </a>
+          </li>-->
+        </ul>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+
 
 {% endblock content %}

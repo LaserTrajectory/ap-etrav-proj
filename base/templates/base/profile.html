@@ -13,10 +13,18 @@
         </div>
     </div>
 
-    <div class="container align-items-center border border-grey m-2 p-2">
-        {% for booking in bookings %}
-            <p>{{ booking.room }} | {{ booking.booking_start_date }} to {{ booking.booking_end_date }} </p>
-        {% endfor %}
+    <div class="container m-3 p-3">
+        <h2>My Bookings</h2>
+            <div class="container m-3 p-3">
+                <div class="row">
+                {% for booking in bookings %}
+                    <div class="col-lg border border-grey p-3">
+                        {{ booking.room }} | {{ booking.booking_start_date }} to {{ booking.booking_end_date }}
+                        <a class="btn bg-steel btn-md ml-1 m-2 disabled" href="#" style="color: black;">Refund </a>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
     </div>
 
 {% endblock content %}
