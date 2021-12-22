@@ -54,6 +54,8 @@ def home(request):
 
     context = {}
 
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
     return render(request, "base/home.html", context)
 
 def hotels(request, slug):
@@ -81,6 +83,8 @@ def hotels(request, slug):
         'reviews': reviews_list
     }
 
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
     print(datetime.datetime.now())
 
     return render(request, "base/hotel.html", context)
@@ -93,6 +97,8 @@ def hotel_list(request):
         'hotels': queryset
     }
 
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
     return render(request, "base/hotel_list.html", context)
 
 def hotel_rooms(request, slug):
@@ -104,6 +110,8 @@ def hotel_rooms(request, slug):
     context = {
         'room': hotel_room
     }
+
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
 
     if request.method == 'GET':
 
@@ -132,7 +140,7 @@ def hotel_rooms(request, slug):
 def index(request):
     user = request.user
     if user.is_authenticated:
-        return render(request, 'base/recommendations.html')
+        return render(request, 'base/home.html')
     else:
         return render(request, 'base/index.html')
 
@@ -166,11 +174,17 @@ def profile(request):
         'bookings': bookings
     }
 
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
     return render(request, "base/profile.html", context)
 
 def recommendations(request):
 
-    return render(request, "base/recommendations.html")
+    context = {}
+
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
+    return render(request, "base/recommendations.html", context)
 
 def success(request):
 
@@ -223,6 +237,7 @@ def search_filter_view(request):
         'queryset': queryset,
     }
 
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
 
     return render(request, "base/search_filter_form.html", context)    
 
@@ -234,8 +249,22 @@ def my_booking_view(request):
         'bookings': bookings
     }
 
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
     return render(request, "base/my-bookings.html", context)
 
 def contact_us_view(request):
 
-    return render(request, "base/contact-us.html")
+    context = {}
+
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
+    return render(request, "base/contact-us.html", context)
+
+def about_us_view(request):
+
+    context = {}
+
+    context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
+    return render(request, "base/about-us.html", context)
