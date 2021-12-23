@@ -1,4 +1,4 @@
-# Phlipcart
+# Ayubowan
 
 ## CS 1202 Advanced Programming: E-Travel Website Project
 
@@ -49,4 +49,4 @@ Next, if you’re on Windows, create a virtual environment using the command “
 
 Once you do this, VSCode will ask if you want to select this virtual environment for the workspace folder. Click Yes. 
 
-Then, install all the requirements by typing “pip install -r requirements.txt”. Wait for the dependencies to install and then type “python3 manage.py runserver” and wait for it to load. It will then show a url, something like http://127.0.0.1:8000. Copy this url and paste it in the browser. And then you can check out Phlipcart!
+Then, install all the requirements by typing “pip install -r requirements.txt”. Wait for the dependencies to install and then type “python3 manage.py runserver” and wait for it to load. It will then show a url, something like http://127.0.0.1:8000. Copy this url and paste it in the browser. And then you can check out Ayubowan!
