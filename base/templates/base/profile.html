@@ -20,7 +20,11 @@
                 {% for booking in bookings %}
                     <div class="col-lg border border-grey p-3">
                         {{ booking.room }} | {{ booking.booking_start_date }} to {{ booking.booking_end_date }}
-                        <a class="btn bg-steel btn-md ml-1 m-2 disabled" href="#" style="color: black;">Refund </a>
+                        {% if booking.booking_start_date < today_date %}
+                            <a class="btn bg-steel btn-md ml-1 m-2 disabled" href="#" style="color: black;">Refund </a>
+                        {% else %}
+                            <a class="btn bg-steel btn-md ml-1 m-2" href="{% url 'base:my-bookings' %}" style="color: black;">Refund </a>
+                        {% endif %}
                     </div>
                 {% endfor %}
                 </div>

@@ -6,6 +6,8 @@ from urllib.parse import urlencode
 from django.conf import settings
 from django.http import HttpResponseRedirect, response
 import datetime
+from django.contrib import messages
+
 
 from django.http import FileResponse
 import io
@@ -171,6 +173,33 @@ def profile(request):
     auth0user = user.social_auth.get(provider='auth0')
     bookings = RoomBooking.objects.filter(user=user)
 
+    # b_sd_arr = []
+
+    # for booking in bookings:
+    #     b_sd_arr.append(booking.booking_start_date)
+
+    today_date = datetime.date.today()
+
+    # b_ver_arr = []
+
+    # for b in b_sd_arr:
+
+    #     if b < today_date:
+
+    #         b_ver_arr.append(0)
+
+    #     else:
+
+    #         b_ver_arr.append(1)
+
+    # print(bookings)
+    # print(b_sd_arr)
+    # print(b_ver_arr)
+
+    # book_dict = dict(zip(bookings, b_ver_arr))
+
+    # print(book_dict)
+
     userdata = {
         'user_id': auth0user.uid,
         'name': user.first_name,
@@ -184,7 +213,8 @@ def profile(request):
         'auth0User': auth0user,
         'userdata': userdata,
         'user_name': user_name,
-        'bookings': bookings
+        'bookings': bookings,
+        'today_date': today_date
     }
 
     context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
@@ -313,11 +343,31 @@ def my_booking_view(request):
 
     bookings = RoomBooking.objects.filter(user=request.user)
 
+    today_date = datetime.date.today()
+
     context = {
-        'bookings': bookings
+        'bookings': bookings,
+        'today_date': today_date
     }
 
     context['picture'] = request.user.social_auth.get(provider='auth0').extra_data['picture']
+
+    given_id = request.POST.get('booking_inst')
+
+    # print("hotel_id: ", given_id)
+
+    booking_to_del = RoomBooking.objects.filter(id=given_id)
+
+    if booking_to_del.exists() == True:
+
+        print(booking_to_del[0].room.is_booked)
+        room = booking_to_del[0].room
+        room.is_booked = False
+        room.save()
+        print(room.is_booked)
+        booking_to_del[0].delete()
+        booking_to_del.delete()
+
 
     return render(request, "base/my-bookings.html", context)
 

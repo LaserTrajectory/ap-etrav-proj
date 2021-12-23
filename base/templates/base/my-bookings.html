@@ -2,11 +2,28 @@
 
 {% block content %}
 
-    <h1>This is the My Bookings page</h1>
+    <h1 class="m-3 p-3">This is the My Bookings page</h1>
 
-    <div class="container align-items-center border border-grey m-2 p-2">
+    <div class="container align-items-center m-3 p-3">
         {% for booking in bookings %}
-            <p>{{ booking.room }} | {{ booking.booking_start_date }} to {{ booking.booking_end_date }} </p>
+            <div class="container">
+                <div class="row">
+                    <div class="col m-2">
+                        <h3>{{ booking.room }}</h3>
+                        <p>From {{ booking.booking_start_date }} to {{ booking.booking_end_date }}</p>
+                        {% if booking.booking_start_date < today_date %}
+                            <p>This booking cannot be refunded as it is now past the start date of the booking.</p>
+                        {% else %}
+                            <p>This booking can be refunded.</p>
+                            <form action="#" method="post">
+                                {% csrf_token %}
+                                <input class="btn bg-steel btn-md ml-1 m-2" type="hidden" name="booking_inst" id="" value="{{ booking.id }}">
+                                <input type="submit" value="Cancel and refund">
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </div>
 
