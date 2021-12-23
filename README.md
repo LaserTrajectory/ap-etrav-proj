@@ -14,7 +14,7 @@
 
 - Bhavye:
   - Front-end design strategy
-  - Recommendations page, view hotel pages' HTML and CSS
+  - Recommendations page, view hotel pages, contact us, about us, auth0 page and home page in HTML, CSS and JavaScript
   - Website layout and structure
 
 - Ishan:
